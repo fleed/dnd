@@ -1,4 +1,3 @@
-
 steps:
 - task: Cake@0
   displayName: Cake.Build
