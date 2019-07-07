@@ -1,0 +1,72 @@
+﻿@page "{feed:alpha}/{packageId}"
+@inject IAnalyzerWebViewService FeedsClient
+@using Dnd.WebHost.Core.Abstractions
+@using Dnd.WebHost.Core.Models
+
+<section class="content-header">
+    <h1>
+        @this.PackageIdTarget
+        <small>@this.Feed</small>
+    </h1>
+</section>
+<section class="content container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="timeline">
+                @foreach (var branch in this.Package.Versions.Keys)
+                {
+                    <li class="time-label">
+                        <span class="bg-red">
+                            @branch
+                        </span>
+                    </li>
+                    <!-- timeline time label -->
+                    <!-- /.timeline-label -->
+                    @foreach (var version in this.Package.Versions[branch].OrderByDescending(v => v.Version))
+                     {
+                         <!-- timeline item -->
+                         <li>
+                             <i class="fa fa-asterisk bg-blue"></i>
+
+                             <div class="timeline-item">
+                                 <span class="time"><i class="fa fa-clock-o"></i> @version.PublishDate.DateTime</span>
+
+                                 <h3 class="timeline-header">@version.Version</h3>
+
+                                 <div class="timeline-body">
+                                     <code>
+                                         dotnet add package @this.PackageIdTarget -v @version.Version
+                                     </code>
+                                 </div>
+                             </div>
+                         </li>
+                     }
+                }
+                <li>
+                    <i class="fa fa-clock-o bg-gray"></i>
+                </li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+@functions{
+
+    [BindProperty(SupportsGet = true)]
+    public string Feed { get; set; }
+
+    [BindProperty(SupportsGet = true)]
+    public string PackageId { get; set; }
+
+    public string PackageIdTarget { get; set; }
+
+    public Package Package { get; set; }
+
+    public async Task OnGetAsync()
+    {
+        this.PackageIdTarget = this.PackageId.Replace('-', '.');
+        var feed = await this.FeedsClient.GetFeedAsync(this.Feed);
+        this.Package = feed.Packages[this.PackageIdTarget];
+    }
+}

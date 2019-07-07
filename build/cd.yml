@@ -1,0 +1,12 @@
+steps:
+- task: Cake@0
+  displayName: Cake.Publish
+  inputs:
+    script: build.cake
+    target: Publish
+- task: PublishBuildArtifacts@1
+  displayName: Publish Console artifact
+  inputs:
+    PathToPublish: out
+    ArtifactName: CliApp
+    ArtifactType: Container

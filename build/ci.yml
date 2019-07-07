@@ -1,0 +1,7 @@
+
+steps:
+- task: Cake@0
+  displayName: Cake.Build
+  inputs:
+    script: build.cake
+    target: Build

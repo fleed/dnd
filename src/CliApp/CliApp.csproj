@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../FeedManagement/Core/FeedManagement.Core.csproj" />
+    <ProjectReference Include="../Meta/Core/Meta.Core.csproj" />
+    <ProjectReference Include="../WebHost/Core/WebHost.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.19317.1" />
+  </ItemGroup>
+
+</Project>

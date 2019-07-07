@@ -1,0 +1,22 @@
+﻿@page
+@inject Microsoft.Extensions.Options.IOptions<Dnd.WebHost.Core.Configuration.AppConfiguration> AppConfiguration
+@inject IAnalyzerWebViewService FeedsClient
+@using Dnd.FeedManagement.Core.Abstractions
+@using Dnd.WebHost.Core.Abstractions
+@using Feed = Dnd.WebHost.Core.Models.Feed
+@using Package = Dnd.WebHost.Core.Models.Package
+@using PackageVersion = Dnd.WebHost.Core.Models.PackageVersion
+
+<section class="content-header">
+    <h1>
+        Feeds
+        <small>Available feeds</small>
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    @foreach (var feed in this.AppConfiguration.Value.Feeds)
+    {
+    <div><a href="/Feed/@feed">@feed</a></div>
+    }
+</section>

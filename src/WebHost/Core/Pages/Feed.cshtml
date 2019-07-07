@@ -1,0 +1,36 @@
+﻿@page "{id:alpha}"
+@inject IAnalyzerWebViewService FeedsClient
+@using Dnd.WebHost.Core.Abstractions
+@using Feed = Dnd.WebHost.Core.Models.Feed
+<section class="content-header">
+    <h1>
+        @this.Feed.Name
+        <small>Feed</small>
+    </h1>
+</section>
+<!-- Main content -->
+<section class="content container-fluid">
+    <ul>
+        @{
+            var list = new SortedDictionary<string, Dnd.WebHost.Core.Models.Package>(this.Feed.Packages, StringComparer.OrdinalIgnoreCase);
+        }
+
+        @foreach(var package in list.Keys)
+        {
+            <li><a href="/Package/@this.Id/@package.Replace('.', '-')">@package</a></li>
+        }
+    </ul>
+</section>
+
+@functions{
+
+    [BindProperty(SupportsGet = true)]
+    public string Id { get; set; }
+
+    public Feed Feed { get; set; }
+
+    public async Task OnGetAsync()
+    {
+        this.Feed = await this.FeedsClient.GetFeedAsync(this.Id);
+    }
+}
